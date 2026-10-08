@@ -1,4 +1,6 @@
---- Day 2: Gift Shop ---
+# Day 2: Gift Shop
+
+## Part 1.
 
 You get inside and take the elevator to its only other stop: the gift shop. "Thank you for visiting the North Pole!" gleefully exclaims a nearby sign. You aren't sure who is even allowed to visit the North Pole, but you know you can access the lobby through here, and from there you can access the rest of the North Pole base.
 
@@ -35,3 +37,5 @@ Your job is to find all of the invalid IDs that appear in the given ranges. In t
 Adding up all the invalid IDs in this example produces 1227775554.
 
 What do you get if you add up all of the invalid IDs?
+
+## Part 2
