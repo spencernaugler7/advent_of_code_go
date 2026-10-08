@@ -15,11 +15,10 @@ func Solve() {
 	}
 
 	solution := 0
-
 	line := string(bytes)
-	ranges := strings.Split(line, ",")
+	line = strings.Trim(line, "\r\n")
 
-	for _, numRange := range ranges {
+	for numRange := range strings.SplitSeq(line, ",") {
 
 		bounds := strings.Split(numRange, "-")
 		lowerBound, _ := strconv.Atoi(bounds[0])
@@ -32,7 +31,6 @@ func Solve() {
 				solution += newId
 			}
 		}
-
 	}
 
 	print(solution)
