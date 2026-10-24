@@ -1,6 +1,6 @@
 module example/hello
 
-go 1.26.2
+go 1.27.3
 
 require (
 	github.com/samber/lo v1.53.0 // indirect
