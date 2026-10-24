@@ -3,11 +3,11 @@ package envpattern
 import "sync"
 
 type Registrar struct {
-	values map[string]interface{}
+	values map[string]any
 	sync.Mutex
 }
 
-func (r *Registrar) Register(name string, value interface{}) error {
+func (r *Registrar) Register(name string, value any) error {
 	if r == nil {
 		return nil
 	}
@@ -20,13 +20,12 @@ func (r *Registrar) Register(name string, value interface{}) error {
 	return nil
 }
 
-func (r *Registrar) Lookup(name string) (interface{}, error) {
+func (r *Registrar) Lookup(k string) any {
 	if r == nil {
-		return nil, 
+		return nil
 	}
 
 	r.Lock()
-	value := r.values[name]
-	r.Unlock()
-	return value, nil
+	defer r.Unlock()
+	return r.values[k]
 }
