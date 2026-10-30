@@ -1,4 +1,4 @@
-package dayone
+package dayOne
 
 import (
 	"fmt"
@@ -8,6 +8,8 @@ import (
 	"strconv"
 	"strings"
 )
+
+const Day = 1
 
 // dial goes from 0 - 99
 // dial starts at 50

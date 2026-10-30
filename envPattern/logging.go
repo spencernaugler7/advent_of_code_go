@@ -1,0 +1,21 @@
+package envpattern
+
+type Logger interface {
+	Error(s string)
+	Info(s string)
+}
+
+type RealLogger struct{}
+
+func (rl RealLogger) Error(s string) {
+	print("ERROR: " + s + "\n")
+}
+
+func (rl RealLogger) Info(s string) {
+	print("INFO: " + s + "\n")
+}
+
+type NullLogger struct{}
+
+func (nl NullLogger) Error(s string) {}
+func (nl NullLogger) Info(s string)  {}
