@@ -1,49 +1,41 @@
 package main
 
 import (
-	// "flag"
+	"example/hello/dayOne"
+	"example/hello/dayTwo"
+	"flag"
 	"fmt"
 
 	"golang.org/x/tools/go/packages"
 )
 
+type Blah struct {
+	Solutions map[int]func(int)
+}
+
+var FunctionMap Blah = Blah{}
+
 func main() {
 
-	// var day = flag.Int("day", 1, "day for the advent of code")
-	// var part = flag.Int("part", 1, "part of the puzzle for the provided day")
-	// flag.Parse()
+	var day = flag.Int("day", 1, "day for the advent of code")
+	var part = flag.Int("part", 1, "part of the puzzle for the provided day")
+	flag.Parse()
 
 	cfg := &packages.Config{Mode: packages.LoadFiles}
-	pkgs, _ := packages.Load(cfg, "example/hello/dayOne")
+	pkgs, _ := packages.Load(cfg, "example/hello/...")
 
-	for _, pkg := range pkgs {
-		for scope := range pkg.Types.Scope().Children() {
-			fmt.Println(scope.Names())
+	if day != nil && part != nil {
+		for _, pkg := range pkgs {
+			fmt.Println(pkg.Name)
 		}
 	}
 
-
-	// switch *day {
-	// case 1:
-		// dayOne.Solve(*part)
-	// case 2:
-	// 	dayTwo.Solve(*part)
-	// }
-
-	// data := map[string]string {
-	// 	"day": IntToString(*day),
-	// 	"part": IntToString(*part),
-	// }
-}
-
-func IntToString(num int) string {
-	returnVal := ""
-	switch num {
-	case 1: returnVal = "One"
-	case 2: returnVal = "Two"
-	case 3: returnVal = "Three"
-	case 4: returnVal = "Four"
-	case 5: returnVal = "Five"
+	dayVal := *day
+	partVal := *part
+	switch {
+	case dayVal == 1 && partVal == 1:
+		dayOne.Solve(*part)
+	case dayVal == 2, partVal == 1:
+		dayTwo.Solve(*part)
 	}
-	return returnVal
 }
