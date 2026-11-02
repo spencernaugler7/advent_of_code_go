@@ -5,6 +5,9 @@ import (
 	"example/hello/dayTwo"
 	"flag"
 	"fmt"
+	"html/template"
+	"log"
+	"os"
 
 	"github.com/samber/lo"
 	"golang.org/x/tools/go/packages"
@@ -44,4 +47,29 @@ func main() {
 	squared := lo.Map(numbers, func(blah, _ int) int { return blah * blah })
 	sum := lo.Sum(squared)
 	fmt.Printf("%d", sum)
+
+	const (
+		master  = `
+		<body>
+			{{block "body" .}}<h1>Default</h1>{{end}}
+		</body>`
+		overlay = `{{define "body"}}<h1>{{ . }}</h1>{{end}}`
+	)
+	var (
+		testVar string = "Spencer"
+	)
+	masterTmpl, err := template.New("master").Parse(master)
+	if err != nil {
+		log.Fatal(err)
+	}
+	overlayTmpl, err := masterTmpl.Parse(overlay)
+	if err != nil {
+		log.Fatal(err)
+	}
+	if err := masterTmpl.Execute(os.Stdout, testVar); err != nil {
+		log.Fatal(err)
+	}
+	if err := overlayTmpl.Execute(os.Stdout, testVar); err != nil {
+		log.Fatal(err)
+	}
 }
