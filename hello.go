@@ -48,12 +48,14 @@ func main() {
 	sum := lo.Sum(squared)
 	fmt.Printf("%d", sum)
 
+	// template test. test out defining blocks in different templates.
 	const (
 		master  = `
 		<body>
 			{{block "body" .}}<h1>Default</h1>{{end}}
 		</body>`
 		overlay = `{{define "body"}}<h1>{{ . }}</h1>{{end}}`
+		overlay2 = `{{define "body"}}<h1>Hello from overlay2</h1>{{end}}`
 	)
 	var (
 		testVar string = "Spencer"
@@ -61,15 +63,19 @@ func main() {
 	masterTmpl, err := template.New("master").Parse(master)
 	if err != nil {
 		log.Fatal(err)
+		panic(err)
 	}
-	overlayTmpl, err := masterTmpl.Parse(overlay)
+	overlayTmpl, err := template.Must(masterTmpl.Clone()).Parse(overlay)
 	if err != nil {
 		log.Fatal(err)
+		panic(err)
 	}
 	if err := masterTmpl.Execute(os.Stdout, testVar); err != nil {
 		log.Fatal(err)
+		panic(err)
 	}
 	if err := overlayTmpl.Execute(os.Stdout, testVar); err != nil {
 		log.Fatal(err)
+		panic(err)
 	}
 }
