@@ -9,9 +9,10 @@ import (
 	"strings"
 )
 
-func Register(registrar map[string]func()) {
+func Register(registrar map[string]func()) map[string]func() {
 	registrar["d1p1"] = SolvePart1
 	// registrar["d1p2"] = SolvePart2
+	return registrar
 }
 
 // dial goes from 0 - 99
