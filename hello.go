@@ -6,6 +6,7 @@ import (
 	"example/hello/dayTwo"
 	"example/hello/errorhandling"
 	"example/hello/fragments"
+	"example/hello/lotest"
 	"example/hello/multipleinterfaces"
 	"flag"
 	"fmt"
@@ -28,6 +29,7 @@ func main() {
 	dayTwo.Register(registrar)
 	errorhandling.Register(registrar)
 	multipleinterfaces.Register(registrar)
+	lotest.Register(registrar)
 
 	run, ok := registrar[*task]
 
