@@ -3,12 +3,12 @@ package channels
 import "fmt"
 
 func ping(pings chan<- string, msg string) {
-    pings <- msg
+	pings <- msg
 }
 
 func pong(pings <-chan string, pongs chan<- string) {
-    msg := <-pings
-    pongs <- msg
+	msg := <-pings
+	pongs <- msg
 }
 
 func Register(registry map[string]func()) map[string]func() {
@@ -17,9 +17,9 @@ func Register(registry map[string]func()) map[string]func() {
 }
 
 func Run() {
-    pings := make(chan string, 1)
-    pongs := make(chan string, 1)
-    ping(pings, "passed message")
-    pong(pings, pongs)
-    fmt.Println(<-pongs)
+	pings := make(chan string, 1)
+	pongs := make(chan string, 1)
+	ping(pings, "passed message")
+	pong(pings, pongs)
+	fmt.Println(<-pongs)
 }
