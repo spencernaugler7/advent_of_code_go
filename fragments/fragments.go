@@ -16,15 +16,15 @@ func Run() {
 	page := template.Must(template.ParseGlob("./fragments/*.html"))
 	fmt.Println(page.DefinedTemplates())
 
-	page.ExecuteTemplate(os.Stdout, "test.html", map[string]string { })
+	page.ExecuteTemplate(os.Stdout, "test.html", map[string]string{})
 
 	// template test. test out defining blocks in different templates.
 	const (
-		master  = `
+		master = `
 		<body>
 			{{block "body" .}}<h1>Default</h1>{{end}}
 		</body>`
-		overlay = `{{define "body"}}<h1>{{ . }}</h1>{{end}}`
+		overlay  = `{{define "body"}}<h1>{{ . }}</h1>{{end}}`
 		overlay2 = `{{define "body"}}<h1>Hello from overlay2</h1>{{end}}`
 	)
 	var (
