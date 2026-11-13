@@ -7,7 +7,7 @@ import (
 )
 
 func Register(registrar map[string]func()) map[string]func() {
-	registrar["fragments"] = Run
+	registrar["loTest"] = Run
 	return registrar
 }
 
