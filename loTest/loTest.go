@@ -6,7 +6,6 @@ import (
 	"github.com/samber/lo"
 )
 
-
 func Register(registrar map[string]func()) map[string]func() {
 	registrar["fragments"] = Run
 	return registrar
