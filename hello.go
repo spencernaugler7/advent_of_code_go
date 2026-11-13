@@ -4,7 +4,9 @@ import (
 	"example/hello/channels"
 	"example/hello/dayOne"
 	"example/hello/dayTwo"
+	"example/hello/errorhandling"
 	"example/hello/fragments"
+	"example/hello/multipleinterfaces"
 	"flag"
 	"fmt"
 	"os"
@@ -24,6 +26,8 @@ func main() {
 	fragments.Register(registrar)
 	dayOne.Register(registrar)
 	dayTwo.Register(registrar)
+	errorhandling.Register(registrar)
+	multipleinterfaces.Register(registrar)
 
 	run, ok := registrar[*task]
 

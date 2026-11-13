@@ -20,11 +20,14 @@ func (b Bash) Foo(bish int) int {
 	return bish * 2
 }
 
+func Register(registrar map[string]func()) map[string]func() {
+	registrar["multipleInterfaces"] = Init
+	return registrar
+}
+
 func Init() {
 
-	var blah Blah1 = Bash { widget: "Bish" }
-
-	
+	var blah Blah1 = Bash{widget: "Bish"}
 
 	result := 0
 
