@@ -5,6 +5,7 @@ import (
 	"example/hello/fragments"
 	"flag"
 	"fmt"
+	"os"
 )
 
 func main() {
@@ -12,7 +13,8 @@ func main() {
 	flag.Parse()
 
 	if *task == "" {
-		return
+		fmt.Fprintln(os.Stderr, "No module provided. Provide flag \"-task\" to pick something to run")
+		os.Exit(1)
 	}
 
 	registrar := make(map[string]func())
@@ -22,7 +24,8 @@ func main() {
 	run, ok := registrar[*task]
 
 	if !ok {
-		panic(fmt.Errorf("Registrar doesn't contain key %s did you register this?", *task))
+		fmt.Fprintf(os.Stderr, "Registrar doesn't contain key \"%s\" did you register this?\n", *task)
+		os.Exit(1)
 	}
 
 	run()
