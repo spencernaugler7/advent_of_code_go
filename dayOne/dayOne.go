@@ -9,12 +9,15 @@ import (
 	"strings"
 )
 
-const Day = 1
+func Register(registrar map[string]func()) {
+	registrar["d1p1"] = SolvePart1
+	// registrar["d1p2"] = SolvePart2
+}
 
 // dial goes from 0 - 99
 // dial starts at 50
 // solution: number of times the dial is at exactly zero by the end of the sequence
-func Solve(part int) {
+func SolvePart1() {
 	bytes, err := os.ReadFile("./dayOne/partOneInput.txt")
 	if err != nil {
 		fmt.Println(err.Error())
@@ -23,12 +26,7 @@ func Solve(part int) {
 
 	result := 0
 
-	switch part {
-	case 1:
-		result = FindPass(strings.Lines(string(bytes)))
-	case 2:
-		// result = FindPassPartTwo(strings.Lines(string(bytes)))
-	}
+	result = FindPass(strings.Lines(string(bytes)))
 	fmt.Println(result)
 }
 
