@@ -7,57 +7,63 @@ import (
 	"strings"
 )
 
-func Solve(part int) {
-	if part == 1 {
-		bytes, err := os.ReadFile("./dayTwo/dayTwoInput.txt")
-		if err != nil {
-			fmt.Println(err.Error())
-			os.Exit(1)
-		}
+func Register(registrar map[string]func()) map[string]func() {
+	registrar["d2p1"] = SolvePart1
+	registrar["d2p2"] = SolvePart2
+	return registrar
+}
 
-		solution := 0
-		line := string(bytes)
-		line = strings.Trim(line, "\r\n")
+func SolvePart1() {
+	bytes, err := os.ReadFile("./dayTwo/dayTwoInput.txt")
+	if err != nil {
+		fmt.Println(err.Error())
+		os.Exit(1)
+	}
 
-		for numRange := range strings.SplitSeq(line, ",") {
+	solution := 0
+	line := string(bytes)
+	line = strings.Trim(line, "\r\n")
 
-			bounds := strings.Split(numRange, "-")
-			lowerBound, _ := strconv.Atoi(bounds[0])
-			upperBound, _ := strconv.Atoi(bounds[1])
-			currentRange := CreateRange(lowerBound, upperBound, 1)
+	for numRange := range strings.SplitSeq(line, ",") {
 
-			for _, id := range currentRange {
-				if IsInvalid(id) {
-					newId, _ := strconv.Atoi(id)
-					solution += newId
-				}
+		bounds := strings.Split(numRange, "-")
+		lowerBound, _ := strconv.Atoi(bounds[0])
+		upperBound, _ := strconv.Atoi(bounds[1])
+		currentRange := CreateRange(lowerBound, upperBound, 1)
+
+		for _, id := range currentRange {
+			if IsInvalid(id) {
+				newId, _ := strconv.Atoi(id)
+				solution += newId
 			}
 		}
+	}
 
-		print(solution)
-	} else {
-		bytes, err := os.ReadFile("./dayTwo/dayTwoInput.txt")
-		if err != nil {
-			fmt.Println(err.Error())
-			os.Exit(1)
-		}
+	print(solution)
+}
 
-		solution := 0
-		line := string(bytes)
-		line = strings.Trim(line, "\r\n")
+func SolvePart2() {
+	bytes, err := os.ReadFile("./dayTwo/dayTwoInput.txt")
+	if err != nil {
+		fmt.Println(err.Error())
+		os.Exit(1)
+	}
 
-		for numRange := range strings.SplitSeq(line, ",") {
+	solution := 0
+	line := string(bytes)
+	line = strings.Trim(line, "\r\n")
 
-			bounds := strings.Split(numRange, "-")
-			lowerBound, _ := strconv.Atoi(bounds[0])
-			upperBound, _ := strconv.Atoi(bounds[1])
-			currentRange := CreateRange(lowerBound, upperBound, 1)
+	for numRange := range strings.SplitSeq(line, ",") {
 
-			for _, id := range currentRange {
-				if IsInvalidP2(id) {
-					newId, _ := strconv.Atoi(id)
-					solution += newId
-				}
+		bounds := strings.Split(numRange, "-")
+		lowerBound, _ := strconv.Atoi(bounds[0])
+		upperBound, _ := strconv.Atoi(bounds[1])
+		currentRange := CreateRange(lowerBound, upperBound, 1)
+
+		for _, id := range currentRange {
+			if IsInvalidP2(id) {
+				newId, _ := strconv.Atoi(id)
+				solution += newId
 			}
 		}
 	}

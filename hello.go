@@ -2,6 +2,8 @@ package main
 
 import (
 	"example/hello/channels"
+	"example/hello/dayOne"
+	"example/hello/dayTwo"
 	"example/hello/fragments"
 	"flag"
 	"fmt"
@@ -20,6 +22,8 @@ func main() {
 	registrar := make(map[string]func())
 	channels.Register(registrar)
 	fragments.Register(registrar)
+	dayOne.Register(registrar)
+	dayTwo.Register(registrar)
 
 	run, ok := registrar[*task]
 
