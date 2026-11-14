@@ -26,7 +26,6 @@ func Register(registrar map[string]func()) map[string]func() {
 }
 
 func Init() {
-
 	var blah Blah1 = Bash{widget: "Bish"}
 
 	result := 0

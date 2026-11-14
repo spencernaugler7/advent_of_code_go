@@ -9,8 +9,10 @@ type User struct {
 	Id int
 }
 
-var ErrInvalidID = errors.New("invalid user id")
-var ErrUserNotFound = errors.New("user not found")
+var (
+	ErrInvalidID    = errors.New("invalid user id")
+	ErrUserNotFound = errors.New("user not found")
+)
 
 func getUser(id int) (*User, error) {
 	if id < 0 {
