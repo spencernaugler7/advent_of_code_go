@@ -1,20 +1,22 @@
 package main
 
 import (
+	"flag"
+	"fmt"
+	"os"
+
 	"example/hello/channels"
 	"example/hello/dayOne"
 	"example/hello/dayTwo"
+	"example/hello/defaulttypevalues"
 	"example/hello/errorhandling"
 	"example/hello/fragments"
 	"example/hello/lotest"
 	"example/hello/multipleinterfaces"
-	"flag"
-	"fmt"
-	"os"
 )
 
 func main() {
-	var task = flag.String("task", "", "enter module name to run")
+	task := flag.String("task", "", "enter module name to run")
 	flag.Parse()
 
 	if *task == "" {
@@ -30,6 +32,7 @@ func main() {
 	errorhandling.Register(registrar)
 	multipleinterfaces.Register(registrar)
 	lotest.Register(registrar)
+	defaulttypevalues.Register(registrar)
 
 	run, ok := registrar[*task]
 
