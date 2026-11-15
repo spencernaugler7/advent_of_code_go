@@ -2,21 +2,22 @@ package dayTwo
 
 import (
 	"fmt"
+	"io"
 	"os"
 	"strconv"
 	"strings"
 )
 
-func Register(registrar map[string]func()) map[string]func() {
+func Register(registrar map[string]func(io.Writer)) map[string]func(io.Writer) {
 	registrar["d2p1"] = SolvePart1
 	registrar["d2p2"] = SolvePart2
 	return registrar
 }
 
-func SolvePart1() {
+func SolvePart1(writer io.Writer) {
 	bytes, err := os.ReadFile("./dayTwo/dayTwoInput.txt")
 	if err != nil {
-		fmt.Println(err.Error())
+		fmt.Fprintln(writer, err.Error())
 		os.Exit(1)
 	}
 
@@ -39,13 +40,13 @@ func SolvePart1() {
 		}
 	}
 
-	print(solution)
+	fmt.Fprintln(writer, solution)
 }
 
-func SolvePart2() {
+func SolvePart2(writer io.Writer) {
 	bytes, err := os.ReadFile("./dayTwo/dayTwoInput.txt")
 	if err != nil {
-		fmt.Println(err.Error())
+		fmt.Fprintln(writer, err.Error())
 		os.Exit(1)
 	}
 
@@ -79,7 +80,6 @@ func IsInvalid(str string) bool {
 
 func IsInvalidP2(str string) bool {
 	if (len(str) % 2) == 0 {
-
 	}
 	return false
 }

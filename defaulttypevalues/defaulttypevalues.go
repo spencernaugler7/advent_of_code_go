@@ -1,29 +1,32 @@
 package defaulttypevalues
 
-import "fmt"
+import (
+	"fmt"
+	"io"
+)
 
-func Register(registrar map[string]func()) map[string]func() {
+func Register(registrar map[string]func(io.Writer)) map[string]func(io.Writer) {
 	registrar["defaulttypevalues"] = Run
 	return registrar
 }
 
 type Blah struct{}
 
-func Run() {
+func Run(writer io.Writer) {
 	var blah uint
-	fmt.Println(blah)
+	fmt.Fprintln(writer, blah)
 
 	var test int
-	fmt.Println(test)
+	fmt.Fprintln(writer, test)
 
 	var fakestring string
-	fmt.Println(fakestring)
+	fmt.Fprintln(writer, fakestring)
 
 	var foo Blah
 	foo = Blah{}
-	fmt.Println(foo)
+	fmt.Fprintln(writer, foo)
 
 	var foo2 *Blah
 	foo2 = &Blah{}
-	fmt.Println(foo2)
+	fmt.Fprintln(writer, foo2)
 }

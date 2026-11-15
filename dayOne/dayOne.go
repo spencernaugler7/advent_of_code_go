@@ -2,6 +2,7 @@ package dayOne
 
 import (
 	"fmt"
+	"io"
 	"iter"
 	"math"
 	"os"
@@ -9,7 +10,7 @@ import (
 	"strings"
 )
 
-func Register(registrar map[string]func()) map[string]func() {
+func Register(registrar map[string]func(io.Writer)) map[string]func(io.Writer) {
 	registrar["d1p1"] = SolvePart1
 	// registrar["d1p2"] = SolvePart2
 	return registrar
@@ -18,7 +19,7 @@ func Register(registrar map[string]func()) map[string]func() {
 // dial goes from 0 - 99
 // dial starts at 50
 // solution: number of times the dial is at exactly zero by the end of the sequence
-func SolvePart1() {
+func SolvePart1(writer io.Writer) {
 	bytes, err := os.ReadFile("./dayOne/partOneInput.txt")
 	if err != nil {
 		fmt.Println(err.Error())
@@ -28,7 +29,7 @@ func SolvePart1() {
 	result := 0
 
 	result = FindPass(strings.Lines(string(bytes)))
-	fmt.Println(result)
+	fmt.Fprintln(writer, result)
 }
 
 func FindPass(input iter.Seq[string]) int {

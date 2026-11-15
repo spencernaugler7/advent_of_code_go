@@ -1,6 +1,9 @@
 package multipleinterfaces
 
-import "fmt"
+import (
+	"fmt"
+	"io"
+)
 
 // want to see what happens when I define two method that are exactly the same
 
@@ -20,12 +23,12 @@ func (b Bash) Foo(bish int) int {
 	return bish * 2
 }
 
-func Register(registrar map[string]func()) map[string]func() {
+func Register(registrar map[string]func(io.Writer)) map[string]func(io.Writer) {
 	registrar["multipleInterfaces"] = Init
 	return registrar
 }
 
-func Init() {
+func Init(writer io.Writer) {
 	var blah Blah1 = Bash{widget: "Bish"}
 
 	result := 0
@@ -37,5 +40,5 @@ func Init() {
 		result = test.Foo(1) - 2
 	}
 
-	fmt.Printf("%d\n", result)
+	fmt.Fprintf(writer, "%d\n", result)
 }

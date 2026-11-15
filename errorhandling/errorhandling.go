@@ -3,6 +3,7 @@ package errorhandling
 import (
 	"errors"
 	"fmt"
+	"io"
 )
 
 type User struct {
@@ -22,12 +23,12 @@ func getUser(id int) (*User, error) {
 	return nil, ErrUserNotFound
 }
 
-func Register(registrar map[string]func()) map[string]func() {
+func Register(registrar map[string]func(io.Writer)) map[string]func(io.Writer) {
 	registrar["errorHandling"] = Run
 	return registrar
 }
 
-func Run() {
+func Run(writer io.Writer) {
 	user, err := getUser(-1)
 	if err != nil {
 		if errors.Is(err, ErrInvalidID) {
@@ -35,5 +36,5 @@ func Run() {
 		}
 	}
 
-	fmt.Println(user.Id)
+	fmt.Fprintln(writer, user.Id)
 }
