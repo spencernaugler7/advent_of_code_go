@@ -6,19 +6,21 @@ import (
 	"slices"
 	"strings"
 
+	"charm.land/bubbles/v2/list"
 	tea "charm.land/bubbletea/v2"
+	"charm.land/lipgloss/v2"
 )
 
-func New(registrar *map[string]func(io.Writer)) *tea.Program {
-	keys := slices.Collect(maps.Keys(*registrar))
-	model := Model{cursor: 0, funcMap: *registrar, choices: keys}
-	return tea.NewProgram(model)
-}
+var modelStyle = lipgloss.NewStyle().
+	Align(lipgloss.Center).
+	BorderStyle(lipgloss.NormalBorder()).
+	BorderForeground(lipgloss.Color("69"))
+
+var docStyle = lipgloss.NewStyle().Margin(1, 2)
 
 type Model struct {
 	funcMap map[string]func(writer io.Writer)
-	choices []string
-	cursor  int
+	choices list.Model
 	output  string
 }
 
@@ -32,51 +34,48 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		switch msg.String() {
 		case "ctrl+c", "q":
 			return m, tea.Quit
-		case "up", "k":
-			if m.cursor > 0 {
-				m.cursor--
+		case "enter":
+			i, ok := m.choices.SelectedItem().(SandboxItem)
+			if ok {
+				choice := i.value
+				writer := WriteCollector{}
+				functoRun := m.funcMap[choice]
+				functoRun(&writer)
+				m.output = writer.Output
 			}
-		case "down", "j":
-			if m.cursor < len(m.choices)-1 {
-				m.cursor++
-			}
-		case "enter", "space":
-			key := m.choices[m.cursor]
-			selectedFunc, found := m.funcMap[key]
-			if !found {
-				return m, nil
-			}
-			writeCollector := WriteCollector{}
-			selectedFunc(&writeCollector)
-			m.output = writeCollector.Output
 		}
+	case tea.WindowSizeMsg:
+		h, v := docStyle.GetFrameSize()
+		m.choices.SetSize(msg.Width-h, msg.Height-v)
 	}
-	return m, nil
+	var cmd tea.Cmd
+	m.choices, cmd = m.choices.Update(msg)
+	return m, cmd
 }
 
 func (m Model) View() tea.View {
 	var s strings.Builder
-	s.WriteString("Choose Experiment to run\n\n")
-	for i, choice := range m.choices {
-		cursor := " "
-		if m.cursor == i {
-			cursor = ">"
-		}
-		s.WriteString(cursor)
-		s.WriteString(choice)
-		s.WriteString("\n")
+
+	s.WriteString(lipgloss.JoinHorizontal(lipgloss.Top, modelStyle.Render(m.choices.View()), modelStyle.Render(m.output)))
+	v := tea.NewView(s.String())
+	v.AltScreen = true
+	return v
+}
+
+func New(registrar *map[string]func(io.Writer)) *tea.Program {
+	keys := slices.Collect(maps.Keys(*registrar))
+
+	var sandboxitems []list.Item
+	for _, val := range keys {
+		item := SandboxItem{value: val}
+		sandboxitems = append(sandboxitems, item)
 	}
-	s.WriteString("\n\nPress q to quit.\n")
-	s.WriteString("\n")
-	s.WriteString(m.output)
-	return tea.NewView(s.String())
-}
 
-type WriteCollector struct {
-	Output string
-}
-
-func (c *WriteCollector) Write(p []byte) (n int, err error) {
-	c.Output += strings.Clone(string(p))
-	return len(p), nil
+	listModel := list.New(sandboxitems, list.NewDefaultDelegate(), 0, 0)
+	listModel.Title = "Run go experiments"
+	model := Model{
+		funcMap: *registrar,
+		choices: listModel,
+	}
+	return tea.NewProgram(model)
 }
