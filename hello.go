@@ -9,6 +9,7 @@ import (
 	"example/hello/dayOne"
 	"example/hello/dayTwo"
 	"example/hello/defaulttypevalues"
+	ecstest "example/hello/ecsTest"
 	"example/hello/errorhandling"
 	"example/hello/fragments"
 	"example/hello/lotest"
@@ -26,6 +27,7 @@ func main() {
 	multipleinterfaces.Register(registrar)
 	lotest.Register(registrar)
 	defaulttypevalues.Register(registrar)
+	ecstest.Register(registrar)
 
 	p := ui.New(&registrar)
 	if _, err := p.Run(); err != nil {
